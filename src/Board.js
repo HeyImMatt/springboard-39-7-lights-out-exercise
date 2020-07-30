@@ -37,10 +37,10 @@ function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = Math.random() }) {
       let rowArr = [];
 
       for (let j = 0; j < ncols; j++) {
-        rowArr.push({ 
+        rowArr.push({
           y: i,
           x: j,
-          isLit: Math.random() > chanceLightStartsOn ? 't' : 'f',
+          isLit: Math.random() > chanceLightStartsOn ? true : false,
         });
       }
 
@@ -58,17 +58,19 @@ function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = Math.random() }) {
       const [y, x] = coord.split('-').map(Number);
       const flipCell = (y, x, boardCopy) => {
         // if this coord is actually on board, flip it
-
         if (x >= 0 && x < ncols && y >= 0 && y < nrows) {
-          boardCopy[y][x] = !boardCopy[y][x];
+          boardCopy[y][x].isLit = !boardCopy[y][x].isLit;
         }
       };
 
       // TODO: Make a (deep) copy of the oldBoard
+      let boardCopy = oldBoard.slice();
 
       // TODO: in the copy, flip this cell and the cells around it
-
+      flipCell(y, x, boardCopy);
       // TODO: return the copy
+      console.log(boardCopy)
+      return boardCopy;
     });
   }
 
@@ -83,8 +85,10 @@ function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = Math.random() }) {
               <tr>
                 {row.map((cellObj) => (
                   <Cell
-                    flipCellsAroundMe={ () => {flipCellsAround(`${cellObj.y}-${cellObj.x}`)} }
-                    isLit={cellObj.isLit === 't' ? true : false}
+                    flipCellsAroundMe={() => {
+                      flipCellsAround(`${cellObj.y}-${cellObj.x}`);
+                    }}
+                    isLit={cellObj.isLit === true ? true : false}
                   />
                 ))}
               </tr>
@@ -94,7 +98,6 @@ function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = Math.random() }) {
       </div>
     </>
   );
-
 }
 
 export default Board;
