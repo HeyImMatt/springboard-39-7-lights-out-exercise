@@ -27,22 +27,21 @@ import './Board.css';
  *
  **/
 
-function Board({ nrows=3, ncols=3, chanceLightStartsOn=Math.random() }) {
+function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = Math.random() }) {
   const [board, setBoard] = useState(createBoard());
 
   /** create a board nrows high/ncols wide, each cell randomly lit or unlit */
   function createBoard() {
     let initialBoard = [];
-    for(let i = 0; i < nrows; i++) {
+    for (let i = 0; i < nrows; i++) {
       let rowArr = [];
 
-      for(let j = 0; j < ncols; j++) {
-        rowArr.push( Math.random() > chanceLightStartsOn ? 't' : 'f')
+      for (let j = 0; j < ncols; j++) {
+        rowArr.push(Math.random() > chanceLightStartsOn ? 't' : 'f');
       }
 
       initialBoard.push(rowArr);
     }
-    console.log(initialBoard)
     return initialBoard;
   }
 
@@ -76,11 +75,25 @@ function Board({ nrows=3, ncols=3, chanceLightStartsOn=Math.random() }) {
 
   return (
     <>
-      <div className="Board">Hello</div>
+      <div className="Board">
+        <table>
+          <tbody>
+            {board.map((row) => (
+              <tr>
+                {row.map((light) => (
+                  <Cell
+                    flipCellsAroundMe={flipCellsAround}
+                    isLit={light === 't' ? true : false}
+                  />
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 
-  // TODO
 }
 
 export default Board;
