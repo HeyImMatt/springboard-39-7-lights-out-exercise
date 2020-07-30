@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import Cell from "./Cell";
-import "./Board.css";
+import React, { useState } from 'react';
+import Cell from './Cell';
+import './Board.css';
 
 /** Game board of Lights out.
  *
@@ -27,13 +27,22 @@ import "./Board.css";
  *
  **/
 
-function Board({ nrows, ncols, chanceLightStartsOn }) {
+function Board({ nrows=3, ncols=3, chanceLightStartsOn=Math.random() }) {
   const [board, setBoard] = useState(createBoard());
 
   /** create a board nrows high/ncols wide, each cell randomly lit or unlit */
   function createBoard() {
     let initialBoard = [];
-    // TODO: create array-of-arrays of true/false values
+    for(let i = 0; i < nrows; i++) {
+      let rowArr = [];
+
+      for(let j = 0; j < ncols; j++) {
+        rowArr.push( Math.random() > chanceLightStartsOn ? 't' : 'f')
+      }
+
+      initialBoard.push(rowArr);
+    }
+    console.log(initialBoard)
     return initialBoard;
   }
 
@@ -42,8 +51,8 @@ function Board({ nrows, ncols, chanceLightStartsOn }) {
   }
 
   function flipCellsAround(coord) {
-    setBoard(oldBoard => {
-      const [y, x] = coord.split("-").map(Number);
+    setBoard((oldBoard) => {
+      const [y, x] = coord.split('-').map(Number);
 
       const flipCell = (y, x, boardCopy) => {
         // if this coord is actually on board, flip it
@@ -65,7 +74,11 @@ function Board({ nrows, ncols, chanceLightStartsOn }) {
 
   // TODO
 
-  // make table board
+  return (
+    <>
+      <div className="Board">Hello</div>
+    </>
+  );
 
   // TODO
 }
