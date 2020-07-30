@@ -68,6 +68,10 @@ function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = Math.random() }) {
 
       // TODO: in the copy, flip this cell and the cells around it
       flipCell(y, x, boardCopy);
+      flipCell(y - 1, x, boardCopy);
+      flipCell(y + 1, x, boardCopy);
+      flipCell(y, x - 1, boardCopy);
+      flipCell(y, x + 1, boardCopy);
       // TODO: return the copy
       console.log(boardCopy)
       return boardCopy;
@@ -85,6 +89,7 @@ function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = Math.random() }) {
               <tr>
                 {row.map((cellObj) => (
                   <Cell
+                    key={`${cellObj.y}-${cellObj.x}`}
                     flipCellsAroundMe={() => {
                       flipCellsAround(`${cellObj.y}-${cellObj.x}`);
                     }}
