@@ -37,7 +37,11 @@ function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = Math.random() }) {
       let rowArr = [];
 
       for (let j = 0; j < ncols; j++) {
-        rowArr.push(Math.random() > chanceLightStartsOn ? 't' : 'f');
+        rowArr.push({ 
+          y: i,
+          x: j,
+          isLit: Math.random() > chanceLightStartsOn ? 't' : 'f',
+        });
       }
 
       initialBoard.push(rowArr);
@@ -52,7 +56,6 @@ function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = Math.random() }) {
   function flipCellsAround(coord) {
     setBoard((oldBoard) => {
       const [y, x] = coord.split('-').map(Number);
-
       const flipCell = (y, x, boardCopy) => {
         // if this coord is actually on board, flip it
 
@@ -69,9 +72,7 @@ function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = Math.random() }) {
     });
   }
 
-  // if the game is won, just show a winning msg & render nothing else
-
-  // TODO
+  // TODO: if the game is won, just show a winning msg & render nothing else
 
   return (
     <>
@@ -80,10 +81,10 @@ function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = Math.random() }) {
           <tbody>
             {board.map((row) => (
               <tr>
-                {row.map((light) => (
+                {row.map((cellObj) => (
                   <Cell
-                    flipCellsAroundMe={flipCellsAround}
-                    isLit={light === 't' ? true : false}
+                    flipCellsAroundMe={ () => {flipCellsAround(`${cellObj.y}-${cellObj.x}`)} }
+                    isLit={cellObj.isLit === 't' ? true : false}
                   />
                 ))}
               </tr>
