@@ -25,6 +25,9 @@ import './Board.css';
  *
  *  This doesn't handle any clicks --- clicks are on individual cells
  *
+ * To check if game is winnable:
+ * The number of on-lights in each row and each column must be even 
+ * (where '0' is considered 'even' as well).
  **/
 
 function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = Math.random() }) {
@@ -61,7 +64,6 @@ function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = Math.random() }) {
       })
     })
     if(litCount === 9) {
-      console.log('Win')
       return true;
     }
     return false;
@@ -94,7 +96,9 @@ function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = Math.random() }) {
   // If the game is won, just show a winning msg & render nothing else
   if (hasWon()) {
     return (
-      <div>Winner</div>
+      <div>
+        <h2>You win!</h2>
+      </div>
     )
   }
   return (
