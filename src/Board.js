@@ -46,11 +46,25 @@ function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = Math.random() }) {
 
       initialBoard.push(rowArr);
     }
+
     return initialBoard;
   }
 
-  function hasWon() {
-    // TODO: check the board in state to determine whether the player has won.
+  // Check the board in state to determine whether the player has won.
+  function hasWon(gameBoard = board) {
+    let litCount = 0;
+    gameBoard.forEach((row) => {
+      row.forEach((cell) => {
+        if (cell.isLit) {
+        litCount += 1
+        }
+      })
+    })
+    if(litCount === 9) {
+      console.log('Win')
+      return true;
+    }
+    return false;
   }
 
   function flipCellsAround(coord) {
@@ -63,23 +77,26 @@ function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = Math.random() }) {
         }
       };
 
-      // TODO: Make a (deep) copy of the oldBoard
+      // Make a (deep) copy of the oldBoard
       let boardCopy = oldBoard.slice();
 
-      // TODO: in the copy, flip this cell and the cells around it
+      // In the copy, flip this cell and the cells around it
       flipCell(y, x, boardCopy);
       flipCell(y - 1, x, boardCopy);
       flipCell(y + 1, x, boardCopy);
       flipCell(y, x - 1, boardCopy);
       flipCell(y, x + 1, boardCopy);
-      // TODO: return the copy
-      console.log(boardCopy)
+      // Return the copy
       return boardCopy;
     });
   }
 
-  // TODO: if the game is won, just show a winning msg & render nothing else
-
+  // If the game is won, just show a winning msg & render nothing else
+  if (hasWon()) {
+    return (
+      <div>Winner</div>
+    )
+  }
   return (
     <>
       <div className="Board">
